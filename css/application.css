@@ -10,7 +10,7 @@
 
 #game-board {
   width: 960px;
-  height: 735px;
+  height: 755px;
   background: #fcb91d; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(#fcb91d, #ffdc52); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(#fcb91d, #ffdc52);  For Opera 11.1 to 12.0
@@ -34,7 +34,7 @@
 }
 
 .cell6 {
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 
@@ -47,6 +47,11 @@
   padding-left: 15px;
 }
 
+.arrows {
+  margin-left: 49px;
+  margin-top: 10px;
+  color: #F7F79C;
+}
 
 
 /*.one-seventh.column {width: 14.2857142857%;}*/
