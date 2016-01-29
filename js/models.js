@@ -8,7 +8,12 @@ var board = {
   col6: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
   col7: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
 
+  printBoard: function() {
+    return this;
+  },
 }
+
+// console.log(board.printBoard());
 
 // game object
 function Game(board, user) {
@@ -33,6 +38,16 @@ function Game(board, user) {
     // #checkHorizontal()
     // #checkVertiacal()
     // #checkDiagonal()
+
+Game.prototype.resetNulls = function() {
+  for (var column in this.board) {
+    for (var cell in this.board[column]){
+      if (this.board[column][cell] === "null") {
+        this.board[column][cell] = null;
+      }
+    }
+  }
+}
 
 Game.prototype.updateBoard = function(columnNumber) {
   var pieceColor = this.user.getColor();
@@ -66,25 +81,27 @@ Game.prototype.check = function(array) {
   }
 }
 
-Game.prototype.checkHorizontal = function(col, cell, board) {
-  var board = board;
+Game.prototype.checkHorizontal = function(col, cell) {
+  var cellHash = Object.assign({}, this.board);
+  console.log("THIS TOO SHALL PASS");
+  console.log(cellHash);
   var cell_number = cell.slice(4, 5);
   var smushed_row = "";
 
-  for (var column in board){
-    if (board[column][cell_number] === null) {
-      board[column][cell_number] = "null";
+  for (var column in cellHash){
+    if (cellHash[column][cell_number] === null) {
+      cellHash[column][cell_number] = "null";
     }
-    smushed_row += (board[column][cell_number]);
+    smushed_row += (cellHash[column][cell_number]);
   }
-   console.log("checkhorizonatl" + col + ", " + cell);
+  this.resetNulls();
   return this.check(smushed_row);
 };
 
 Game.prototype.checkVertical = function(col) {
   //column is a string with the key name that matches the board
-  var board = this.board;
-  var column = board[col];
+  var cellHash = Object.assign({}, this.board);
+  var column = cellHash[col];
   var smushed_column = "";
 
   for (var cell in column) {
@@ -93,7 +110,7 @@ Game.prototype.checkVertical = function(col) {
     }
     smushed_column += column[cell];
   }
-
+  this.resetNulls();
   return this.check(smushed_column)
 };
 

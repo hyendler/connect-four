@@ -120,6 +120,12 @@ h1{
 .clearfix { display: block; }
 /* close commented backslash hack */
 
+h1.winner {
+  font-size: 5em;
+  margin: 0 auto;
+  width
+}
+
 
 
 

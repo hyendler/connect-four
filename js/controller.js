@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
   //game set up
-  var user1 = new User("#2D2E2E");
+  var user1 = new User("black");
   var user2 = new User("red");
 
   var game = new Game(board, user1);
@@ -13,15 +13,21 @@ $(document).ready(function() {
 
     var columnId = $(this).attr('id')
     var result = game.placePiece(columnId);
-    console.log("result: " + result);
-    console.log("board: " + game.board);
     var cellNumber = result[0];
     var cellColor = result[1];
+    console.log(cellNumber);
+    console.log("game.board");
+    console.log(game.board.printBoard());
+
+
 
     $("." + columnId + " ." +  cellNumber).css('background-color', cellColor);
-    console.log("controller: " + columnId + ", " + cellNumber);
 
-    console.log(game.hasWon(columnId, cellNumber, game.board));
+    if (game.hasWon(columnId, cellNumber)){
+      $("#game-board").remove();
+      $("#game-area").append("<h1 class='winner'>YOU WON!</h1>");
+      $("#game-area").fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+    } else {
 
     if (game.user=== user1) {
       game.user = user2;
@@ -32,6 +38,7 @@ $(document).ready(function() {
       var color = game.user.getColor();
       $(".user-piece").css('background-color', color)
     }
+  }
 
 });
 
