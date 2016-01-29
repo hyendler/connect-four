@@ -1,11 +1,26 @@
 $(document).ready(function() {
 
   //game set up
-  var user1 = new User("black");
+  var user1 = new User("#2D2E2E");
   var user2 = new User("red");
   var game = new Game(board, user1);
 
-  bindListeners();
+
+  $('i').on('click', function(e){
+  e.preventDefault();
+  var columnId = $(this).attr('id')
+  var result = game.placePiece(columnId);
+  var cellNumber = result[0];
+  var cellColor = result[1];
+  $("." + columnId + " ." +  cellNumber).css('background-color', cellColor)
+
+  if (game.user=== user1) {
+    game.user = user2;
+  } else {
+    game.user = user1;
+  }
+});
+
 
 
   //waiting for a click on a particular column, send that info back to model, update the board, check if game is won, then if not send back updated cell
@@ -14,18 +29,7 @@ $(document).ready(function() {
 
 });
 
-var bindListeners = function(){
-  $('i').on('click', fillCircle);
-}
 
-var fillCircle = function(e){
-  e.preventDefault();
-  var columnId = $(this).attr('id')
-  var cellNumber = game.updateBoard(columnId);
-  console.log(cellNumber);
-
-
-}
 
 
 

@@ -166,18 +166,6 @@ function User(color) {
 }
 
 
-// Driver Code
-var user1 = new User("black");
-var user2 = new User("red");
-var game = new Game(board, user1);
-var piece = game.placePiece("col4");
-
-
-console.log(game.checkDiagonal("col5", "cell6"));
-// console.log(game.checkDiagonal(board));
-
-
-
 
 
 
