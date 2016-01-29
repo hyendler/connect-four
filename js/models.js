@@ -77,11 +77,11 @@ function User(color) {
 
 
 //Drive Code
-var user1 = new User("black");
-var user2 = new User("red");
-var game = new Game(board, user1);
-var result = game.placePiece("col4");
-console.log(result);
+// var user1 = new User("black");
+// var user2 = new User("red");
+// var game = new Game(board, user1);
+// var result = game.placePiece("col4");
+// console.log(result);
 
 
 
