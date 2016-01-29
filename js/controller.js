@@ -8,6 +8,7 @@ $(document).ready(function() {
 
 
   $('i').on('click', function(e){
+
     e.preventDefault();
 
     var columnId = $(this).attr('id')
@@ -31,9 +32,6 @@ $(document).ready(function() {
       var color = game.user.getColor();
       $(".user-piece").css('background-color', color)
     }
-
-
-
 
 });
 

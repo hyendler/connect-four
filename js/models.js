@@ -52,7 +52,7 @@ Game.prototype.updateBoard = function(columnNumber) {
 Game.prototype.placePiece = function(columnNumber) {
   var result = [];
   var pieceColor = this.user.getColor();
-  var correctCell = this.updateBoard(columnNumber);
+  var correctCell = this.updateBoard(columnNumber); // i.e. "cell2"
   result.push(correctCell, pieceColor);
   return result; // [correctCell, pieceColor]
 };
@@ -97,81 +97,127 @@ Game.prototype.checkVertical = function(col) {
   return this.check(smushed_column)
 };
 
-Game.prototype.cellIndex = function(col, cell){
-  var cell_number = parseInt(cell.slice(4, 5));
-  var col_number = parseInt(col.slice(3, 4));
-  var index = ((((7 - cell_number) - 1)*7 + col_number)-1);
-  return index;
-}
 
-Game.prototype.flattenBoard = function(){
-  var board = this.board;
-  var boardArray = [];
-  for (var i = 6; i > 0; i--) {
-    for (var column in board) {
-      if (board[column][i] === null) {
-        board[column][i] = "null";
-      }
-      boardArray.push(board[column][i])
+Game.prototype.checkDiagonalUp = function(col, cell) {
+  var cellNumber = parseInt(cell.slice(4, 5));
+  var colNumber = parseInt(col.slice(3, 4));
+  startingCellNumber = "";
+  startingColNumber = "";
+  if (cellNumber >= 4) {
+    while (cellNumber < 6 && colNumber < 7) {
+      colNumber++;
+      cellNumber++;
+    }
+    startingCellNumber = cellNumber;
+    startingColNumber = colNumber;
+  } else {
+    while (cellNumber > 1 && colNumber > 1) {
+      colNumber--;
+      cellNumber--;
+    }
+    startingCellNumber = cellNumber;
+    startingColNumber = colNumber;
+  }
+
+  return [startingColNumber, startingCellNumber];
+};
+
+Game.prototype.buildDiagonalStringUp = function(startingArray) {
+  var colNumber = startingArray[0];
+  var cellNumber = startingArray[1];
+  var result = "";
+
+  if (cellNumber >= 4) {
+    while ((colNumber > 0) && (cellNumber > 0)) {
+      console.log(colNumber, cellNumber)
+      result += this.board["col" + colNumber][cellNumber];
+      cellNumber--;
+      colNumber--;
+    };
+  } else {
+    while ((colNumber <= 7) && (cellNumber <= 6)) {
+      console.log(colNumber, cellNumber)
+      result += this.board["col" + colNumber][cellNumber];
+      cellNumber++;
+      colNumber++;
     }
   }
-  console.log(boardArray);
-  return boardArray;
+  return this.check(result);
+};
 
+Game.prototype.checkDiagonalDown = function(col, cell) {
+  var cellNumber = parseInt(cell.slice(4, 5));
+  var colNumber = parseInt(col.slice(3, 4));
+  startingCellNumber = "";
+  startingColNumber = "";
+
+  if (cellNumber >= 4) {
+    while (cellNumber < 6 && colNumber > 1) {
+      colNumber--;
+      cellNumber++;
+    }
+    startingCellNumber = cellNumber;
+    startingColNumber = colNumber;
+  } else {
+    while (cellNumber > 1 && colNumber < 7) {
+      colNumber++;
+      cellNumber--;
+    }
+    startingCellNumber = cellNumber;
+    startingColNumber = colNumber;
+  }
+  return [startingColNumber, startingCellNumber];
+};
+
+Game.prototype.buildDiagonalStringDown = function(startingArray) {
+  var colNumber = startingArray[0];
+  var cellNumber = startingArray[1];
+  var result = "";
+
+  if (cellNumber >= 4) {
+    while ((colNumber <= 7) && (cellNumber >= 1)) {
+      console.log(colNumber, cellNumber)
+      result += this.board["col" + colNumber][cellNumber];
+      cellNumber--;
+      colNumber++;
+    };
+  } else {
+    while ((colNumber >= 1) && (cellNumber <= 6)) {
+      console.log(colNumber, cellNumber)
+      result += this.board["col" + colNumber][cellNumber];
+      cellNumber++;
+      colNumber--;
+    }
+  }
+  return this.check(result);
 }
 
-// Game.prototype.checkDiagonal = function(col, cell) {
-//   var board_array = this.flattenBoard(); //board array flattened
-//   var index = this.cellIndex(col, cell);
-//   var answer_string = "";
+Game.prototype.checkDiagonal = function(col, cell) {
+  var checkUp = this.checkDiagonalUp(col, cell);
+  var checkDown = this.checkDiagonalDown(col, cell);
+  var checkUpResult = this.buildDiagonalStringUp(checkUp);
+  var checkDownResult = this.buildDiagonalStringDown(checkDown);
 
-//   // check the 6 +/- diagonal
-//   // check the 8 +/- diagonal
-
-//   // if (when we are our perform +/-) the index is less that zero
-//   // or more than 41
-//   // or the index is equal to [0, 7, 14, 21, 24, 35, 6, 13, 20, 27, 34, 41]
-//   // we need to stop the +/- process
-//   do {
-//     answer_string += (board_array[index]);
-//     index += 8;
-//   } while (index >= 0 && index < 42);
-
-//   do {
-//     (board_array[index]) + answer_string
-//     index -= 8;
-//   } while (index >= 0 && index < 42)
-
-
-
-//   // && index != [0, 7, 14, 21, 24, 35, 6, 13, 20, 27, 34, 41]
-//   console.log(answer_string);
-
-// }
+  if (checkUpResult === true || checkDownResult === true) {
+    return true
+  } else {
+    return false
+  }
+}
 
 // checks if a user has won - returns true or false
-Game.prototype.hasWon = function(col, cell, board) {
-  console.log("models col: " + col);
-  console.log("models cell: " + cell);
-  var horizontalResult = this.checkHorizontal(col, cell, board);
-  // var verticalResult = this.checkVertical(col);
-  // var diagonalResult = this.checkDiagonal(board);
+Game.prototype.hasWon = function(col, cell) {
+  var horizontalResult = this.checkHorizontal(col, cell);
+  var verticalResult = this.checkVertical(col);
+  var diagonalResult = this.checkDiagonal(col, cell);
 
-  // if ((horizontalResult === true) || (verticalResult === true) || (diagonalResult === true) {
-  //   return true;
-  // } else {
-  //   return false;
-  // }
-
-   if (horizontalResult === true) {
+  if ((horizontalResult === true) || (verticalResult === true) || (diagonalResult === true)) {
     return true;
   } else {
     return false;
   }
 
-}
-
-// helper methods (will try to move to another file later)
+};
 
 // user object
 function User(color) {
@@ -179,14 +225,4 @@ function User(color) {
     return color;
   }
 }
-
-
-// var user1 = new User("black");
-// var game = new Game(board, user1);
-// game.flattenBoard();
-// game.checkDiagonal("col4", "cell5");
-
-
-
-
 
