@@ -8,15 +8,6 @@ var board = {
   col6: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
   col7: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
 
-  // col1: {6: "black", 5: "black", 4: "black", 3: null, 2: "black", 1: "red"},
-  // col2: {6: null, 5: "red", 4: null, 3: "black", 2: "red", 1: "black"},
-  // col3: {6: "red", 5: null, 4: null, 3: null, 2: "black", 1: "black"},
-  // col4: {6: null, 5: null, 4: null, 3: "red", 2: null, 1: "black"},
-  // col5: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
-  // col6: {6: null, 5: "black", 4: null, 3: null, 2: null, 1: null},
-  // col7: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
-
-
 }
 
 // game object
@@ -67,6 +58,7 @@ Game.prototype.placePiece = function(columnNumber) {
 };
 
 Game.prototype.check = function(array) {
+  // console.log("check" + col + ", " + cell);
   if (array.match("redredredred") || array.match("blackblackblackblack")){
     return true;
   } else {
@@ -74,8 +66,8 @@ Game.prototype.check = function(array) {
   }
 }
 
-Game.prototype.checkHorizontal = function(col, cell) {
-  var board = this.board;
+Game.prototype.checkHorizontal = function(col, cell, board) {
+  var board = board;
   var cell_number = cell.slice(4, 5);
   var smushed_row = "";
 
@@ -85,6 +77,7 @@ Game.prototype.checkHorizontal = function(col, cell) {
     }
     smushed_row += (board[column][cell_number]);
   }
+   console.log("checkhorizonatl" + col + ", " + cell);
   return this.check(smushed_row);
 };
 
@@ -103,6 +96,7 @@ Game.prototype.checkVertical = function(col) {
 
   return this.check(smushed_column)
 };
+
 
 Game.prototype.checkDiagonalUp = function(col, cell) {
   var cellNumber = parseInt(cell.slice(4, 5));
@@ -124,6 +118,7 @@ Game.prototype.checkDiagonalUp = function(col, cell) {
     startingCellNumber = cellNumber;
     startingColNumber = colNumber;
   }
+
   return [startingColNumber, startingCellNumber];
 };
 
@@ -198,7 +193,6 @@ Game.prototype.buildDiagonalStringDown = function(startingArray) {
 }
 
 Game.prototype.checkDiagonal = function(col, cell) {
-
   var checkUp = this.checkDiagonalUp(col, cell);
   var checkDown = this.checkDiagonalDown(col, cell);
   var checkUpResult = this.buildDiagonalStringUp(checkUp);
@@ -222,6 +216,7 @@ Game.prototype.hasWon = function(col, cell) {
   } else {
     return false;
   }
+
 };
 
 // user object
@@ -230,5 +225,4 @@ function User(color) {
     return color;
   }
 }
-
 
