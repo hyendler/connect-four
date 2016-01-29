@@ -20,22 +20,22 @@ When a user wins the game, the view will alert them and present an option to pla
 
 the following objects will be defined:
 
-- piece:
-..- red or black
+- piece: (may not build this for MVP)
+  - red or black
 - user:
-..- is associated with a color
-..- each game has two users
+  - is associated with a color
+  - each game has two users
 - board:
-..- rows
-..- columns
-..- cells
-....- empty of full
-....- if full, red or black
-..- game play
-....- check its own state and return that
-....- check if someone has won, and return the winning user
-....- return the new board after a new play
-..- board will be stored as a nested hash - e.g.
+  - rows
+  - columns
+  - cells
+    - empty of full
+    - if full, red or black
+  - game play
+    - check its own state and return that
+    - check if someone has won, and return the winning user
+    - return the new column after a new play
+  - board will be stored as a nested hash - e.g.
 ```
 { column1: {1: "black", 2: "red", 3: null, 4: null, 5: null, 6: null},
   column2: {1: "red", 2: "black", 3: "black", 4: null, 5: null, 6: null},
