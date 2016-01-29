@@ -1,13 +1,5 @@
 // board object
 var board = {
-  // col1: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
-  // col2: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
-  // col3: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
-  // col4: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
-  // col5: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
-  // col6: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
-  // col7: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
-
   col1: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
   col2: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
   col3: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
@@ -15,6 +7,14 @@ var board = {
   col5: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
   col6: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
   col7: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
+
+  // col1: {6: "black", 5: "black", 4: "black", 3: null, 2: "black", 1: "red"},
+  // col2: {6: null, 5: "red", 4: null, 3: "black", 2: "red", 1: "black"},
+  // col3: {6: "red", 5: null, 4: null, 3: null, 2: "black", 1: "black"},
+  // col4: {6: null, 5: null, 4: null, 3: "red", 2: null, 1: "black"},
+  // col5: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
+  // col6: {6: null, 5: "black", 4: null, 3: null, 2: null, 1: null},
+  // col7: {6: null, 5: null, 4: null, 3: null, 2: null, 1: null},
 
 
 }
@@ -61,7 +61,7 @@ Game.prototype.updateBoard = function(columnNumber) {
 Game.prototype.placePiece = function(columnNumber) {
   var result = [];
   var pieceColor = this.user.getColor();
-  var correctCell = this.updateBoard(columnNumber);
+  var correctCell = this.updateBoard(columnNumber); // i.e. "cell2"
   result.push(correctCell, pieceColor);
   return result; // [correctCell, pieceColor]
 };
@@ -104,59 +104,125 @@ Game.prototype.checkVertical = function(col) {
   return this.check(smushed_column)
 };
 
-Game.prototype.cellIndex = function(col, cell){
-  var cell_number = parseInt(cell.slice(4, 5));
-  var col_number = parseInt(col.slice(3, 4));
-  var index = ((col_number - 1)*7 + cell_number)-1;
-  return index;
-}
+Game.prototype.checkDiagonalUp = function(col, cell) {
+  var cellNumber = parseInt(cell.slice(4, 5));
+  var colNumber = parseInt(col.slice(3, 4));
+  startingCellNumber = "";
+  startingColNumber = "";
+  if (cellNumber >= 4) {
+    while (cellNumber < 6 && colNumber < 7) {
+      colNumber++;
+      cellNumber++;
+    }
+    startingCellNumber = cellNumber;
+    startingColNumber = colNumber;
+  } else {
+    while (cellNumber > 1 && colNumber > 1) {
+      colNumber--;
+      cellNumber--;
+    }
+    startingCellNumber = cellNumber;
+    startingColNumber = colNumber;
+  }
+  return [startingColNumber, startingCellNumber];
+};
 
-Game.prototype.flattenBoard = function(col, cell){
-  var board = this.board;
-  var boardArray = [];
-  for (var column in board){
-    console.log(column)
-    for (var cell in board[column]){
-      if (board[column][cell] === null) {
-        board[column][cell] = "null";
-      }
-      boardArray.push(board[column][cell]);
+Game.prototype.buildDiagonalStringUp = function(startingArray) {
+  var colNumber = startingArray[0];
+  var cellNumber = startingArray[1];
+  var result = "";
+
+  if (cellNumber >= 4) {
+    while ((colNumber > 0) && (cellNumber > 0)) {
+      console.log(colNumber, cellNumber)
+      result += this.board["col" + colNumber][cellNumber];
+      cellNumber--;
+      colNumber--;
+    };
+  } else {
+    while ((colNumber <= 7) && (cellNumber <= 6)) {
+      console.log(colNumber, cellNumber)
+      result += this.board["col" + colNumber][cellNumber];
+      cellNumber++;
+      colNumber++;
     }
   }
-  return boardArray;
+  return this.check(result);
+};
+
+Game.prototype.checkDiagonalDown = function(col, cell) {
+  var cellNumber = parseInt(cell.slice(4, 5));
+  var colNumber = parseInt(col.slice(3, 4));
+  startingCellNumber = "";
+  startingColNumber = "";
+
+  if (cellNumber >= 4) {
+    while (cellNumber < 6 && colNumber > 1) {
+      colNumber--;
+      cellNumber++;
+    }
+    startingCellNumber = cellNumber;
+    startingColNumber = colNumber;
+  } else {
+    while (cellNumber > 1 && colNumber < 7) {
+      colNumber++;
+      cellNumber--;
+    }
+    startingCellNumber = cellNumber;
+    startingColNumber = colNumber;
+  }
+  return [startingColNumber, startingCellNumber];
+};
+
+Game.prototype.buildDiagonalStringDown = function(startingArray) {
+  var colNumber = startingArray[0];
+  var cellNumber = startingArray[1];
+  var result = "";
+
+  if (cellNumber >= 4) {
+    while ((colNumber <= 7) && (cellNumber >= 1)) {
+      console.log(colNumber, cellNumber)
+      result += this.board["col" + colNumber][cellNumber];
+      cellNumber--;
+      colNumber++;
+    };
+  } else {
+    while ((colNumber >= 1) && (cellNumber <= 6)) {
+      console.log(colNumber, cellNumber)
+      result += this.board["col" + colNumber][cellNumber];
+      cellNumber++;
+      colNumber--;
+    }
+  }
+  return this.check(result);
 }
 
 Game.prototype.checkDiagonal = function(col, cell) {
-  var board = this.flattenBoard(col, cell); //board array flattened
-  var index = this.cellIndex(col, cell);
 
-  //check the 8 +/- diagonal
+  var checkUp = this.checkDiagonalUp(col, cell);
+  var checkDown = this.checkDiagonalDown(col, cell);
+  var checkUpResult = this.buildDiagonalStringUp(checkUp);
+  var checkDownResult = this.buildDiagonalStringDown(checkDown);
 
-
-  //check the 6 +/- diagonal
-
-
-
-
-
-
+  if (checkUpResult === true || checkDownResult === true) {
+    return true
+  } else {
+    return false
+  }
 }
 
 // checks if a user has won - returns true or false
-Game.prototype.hasWon = function(col, cell, board) {
-  var horizontalResult = this.checkHorizontal(board);
-  var verticalResult = this.checkVertical(column);
-  var diagonalResult = this.checkDiagonal(board);
+Game.prototype.hasWon = function(col, cell) {
+  var horizontalResult = this.checkHorizontal(col, cell);
+  var verticalResult = this.checkVertical(col);
+  var diagonalResult = this.checkDiagonal(col, cell);
 
-  // if ((horizontalResult === true) || (verticalResult === true) || (diagonalResult === true) {
-  //   return true;
-  // } else {
-  //   return false;
-  // }
-
-}
-
-// helper methods (will try to move to another file later)
+  if ((horizontalResult === true) || (verticalResult === true) || (diagonalResult === true)) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 // user object
 function User(color) {
@@ -164,8 +230,5 @@ function User(color) {
     return color;
   }
 }
-
-
-
 
 

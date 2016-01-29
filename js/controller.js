@@ -14,6 +14,9 @@ $(document).ready(function() {
   var cellColor = result[1];
   $("." + columnId + " ." +  cellNumber).css('background-color', cellColor)
 
+  console.log(game.hasWon(columnId, cellNumber));
+
+
   if (game.user=== user1) {
     game.user = user2;
   } else {
