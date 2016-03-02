@@ -3,28 +3,105 @@
 <head>
   <title>DBC Connect Form</title>
   <link rel="stylesheet" type="text/css" href="css/normalize.css">
+  <!-- <link rel="stylesheet" type="text/css" href="css/skeleton.css"> -->
   <link rel="stylesheet" type="text/css" href="css/application.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Homenaje' rel='stylesheet' type='text/css'>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="js/controller.js"></script>
+  <script src="js/models.js"></script>
 
-  <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-  <script src="javascripts/src/controller.js"></script>
-
-  <script src="javascripts/src/models.js"></script>
 
 </head>
 <body>
 
-<h1>Connect Four</h1>
+<div class="container clearfix">
 
-<section id="game-board">
+<header class="clearfix">
+  <h1>Connect Four</h1>
 
-<div id="col1"<a href="#">
-  <div class="cell1"></div>
-  <div class="cell2"></div>
-  <div class="cell3"></div>
-  <div class="cell4"></div>
-  <div class="cell5"></div>
-  <div class="cell6"></div>
-</a></div>
+  <div class="user-info">
+    <h2>User: </h2><div class="user-piece"></div>
+  </div>
+</header>
+<div id="game-area">
+
+  <div id="game-board">
+
+    <div class="col1 column first">
+      <i id="col1" class="fa fa-arrow-down fa-2x arrows"></i>
+        <div class="cell6"></div>
+        <div class="cell5"></div>
+        <div class="cell4"></div>
+        <div class="cell3"></div>
+        <div class="cell2"></div>
+        <div class="cell1"></div>
+    </div>
+
+    <div class="col2 column">
+      <i id="col2" class="fa fa-arrow-down fa-2x arrows"></i>
+      <div class="cell6"></div>
+      <div class="cell5"></div>
+      <div class="cell4"></div>
+      <div class="cell3"></div>
+      <div class="cell2"></div>
+      <div class="cell1"></div>
+    </div>
+
+    <div class="col3 column">
+      <i id="col3" class="fa fa-arrow-down fa-2x arrows"></i>
+      <div class="cell6"></div>
+      <div class="cell5"></div>
+      <div class="cell4"></div>
+      <div class="cell3"></div>
+      <div class="cell2"></div>
+      <div class="cell1"></div>
+    </div>
+
+    <div class="col4 column">
+       <i id="col4" class="fa fa-arrow-down fa-2x arrows"></i>
+      <div class="cell6"></div>
+      <div class="cell5"></div>
+      <div class="cell4"></div>
+      <div class="cell3"></div>
+      <div class="cell2"></div>
+      <div class="cell1"></div>
+    </div>
+
+    <div class="col5 column">
+       <i id="col5" class="fa fa-arrow-down fa-2x arrows"></i>
+      <div class="cell6"></div>
+      <div class="cell5"></div>
+      <div class="cell4"></div>
+      <div class="cell3"></div>
+      <div class="cell2"></div>
+      <div class="cell1"></div>
+    </div>
+
+    <div class="col6 column">
+      <i id="col6" class="fa fa-arrow-down fa-2x arrows"></i>
+      <div class="cell6"></div>
+      <div class="cell5"></div>
+      <div class="cell4"></div>
+      <div class="cell3"></div>
+      <div class="cell2"></div>
+      <div class="cell1"></div>
+    </div>
+
+    <div class="col7 column">
+      <i id="col7" class="fa fa-arrow-down fa-2x arrows"></i>
+      <div class="cell6"></div>
+      <div class="cell5"></div>
+      <div class="cell4"></div>
+      <div class="cell3"></div>
+      <div class="cell2"></div>
+      <div class="cell1"></div>
+    </div>
+  </div>
+
+  </div>
+</div><!--container close-->
+
 
 
 </body>
